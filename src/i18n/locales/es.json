@@ -1,0 +1,33 @@
+{
+  "common": {
+    "add": "Añadir",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "back": "Atrás",
+    "delete": "Eliminar"
+  },
+  "home": {
+    "MY_BOARDS": "Mis tableros",
+    "greeting": "¡Hola, Naeem! 👋",
+    "welcome_subtitle": "Organiza tus proyectos en tableros visuales.",
+    "upcoming": "Próximos",
+    "in_progress": "En Progreso",
+    "completed": "Completados",
+    "tasks_count": "{{count}} tareas",
+    "no_boards": "No hay tableros aún",
+    "create_first": "Crea tu primer tablero"
+  },
+  "board": {
+    "title_label": "Título del Tablero",
+    "placeholder": "ej. Sistema de Diseño",
+    "new_list": "Nueva Lista",
+    "add_task": "Nueva Tarea",
+    "not_found": "Tablero no encontrado"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "language": "Idioma",
+    "theme": "Apariencia",
+    "select_language": "Selecciona tu idioma"
+  }
+}

@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @media (prefers-color-scheme: light) {
+    :root {
+      —background: #ffffff;
+      —foreground: 0 0% 0%;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      —background: #000000;
+      —foreground: 0 0% 100%;
+    }
+  }
+}
+
+.input-label {
+  @apply text-sm font-bold !text-neutral-700 dark:!text-neutral-400
+}
