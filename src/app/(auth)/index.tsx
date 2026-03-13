@@ -5,7 +5,7 @@ import { Colors } from '@/constants/theme'
 import { Image } from 'expo-image'
 import { LockKeyhole, Mail } from 'lucide-react-native'
 import { Pressable, View } from 'react-native'
-
+//SHA256:1h4+I/scR+sj1GqF5vftjNzc2F0Gr7yDmvW7LOV4wsM rafa33afrojack@hotmail.com
 export default function LoginScreen() {
   return (
     <Screen enableBack={false}>
