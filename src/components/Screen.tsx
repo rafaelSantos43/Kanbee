@@ -1,10 +1,11 @@
 import { useRouter } from 'expo-router'
 import React, { ReactNode, memo, useMemo } from 'react'
-import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, View, useWindowDimensions } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { KText } from './KText'
 
 interface ScreenProps {
+  testID?: string
   title?: string
   subtitle?: string
   leftIcon?: ReactNode
@@ -27,6 +28,13 @@ export const Screen = memo(function Screen({
 }: ScreenProps) {
   const router = useRouter()
   const insets = useSafeAreaInsets()
+  const { width } = useWindowDimensions()
+
+  const dynamicPadding = useMemo(() => {
+    if (width > 600) return 'px-12'
+    if (width < 350) return 'px-3'
+    return 'px-5'
+  }, [width])
 
   const containerStyle = useMemo(
     () => ({
@@ -66,7 +74,7 @@ export const Screen = memo(function Screen({
 
   const Header = (
     <View
-      style={{ paddingTop: insets.top }}
+      style={{ paddingTop: Math.max(insets.top) }}
       className='px-5 pb-4 flex-row items-center justify-between'
     >
       <View className='flex-row items-center flex-1'>
@@ -98,18 +106,19 @@ export const Screen = memo(function Screen({
   const Content = scroll ? (
     <ScrollView
       className='flex-1 px-5'
-      keyboardShouldPersistTaps='handled'
       contentContainerStyle={{
-        paddingBottom: insets.bottom + 20,
+        paddingBottom: insets.bottom,
+        flexGrow: 1,
       }}
       showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps='handled'
     >
       {children}
     </ScrollView>
   ) : (
     <View
-      className='flex-1 px-5'
-      style={{ paddingBottom: insets.bottom }}
+      className={`flex-1 ${dynamicPadding}`}
+      style={{ paddingBottom: Math.max(insets.bottom) }}
     >
       {children}
     </View>

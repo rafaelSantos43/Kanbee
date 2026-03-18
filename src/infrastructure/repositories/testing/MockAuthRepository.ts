@@ -1,10 +1,20 @@
+import { Role } from '@/constants/roles';
 import { IAuthRepository } from '../../../core/interfaces/IAuthRepository';
 
 export class MockAuthRepository implements IAuthRepository {
   private users: { id: string; username: string; password: string }[] = []
   private currentUser: { id: string; username: string } | null = null
 
-  async register(username: string, password: string): Promise<{ id: string; username: string }> {
+  async register({
+    username,
+    password,
+  }: {
+    username: string
+    email: string
+    password: string
+    avatar: string | null
+    role: Role
+  }): Promise<{ id: string; username: string }> {
     const exists = this.users.find((u) => u.username === username)
 
     if (exists) {
@@ -22,7 +32,13 @@ export class MockAuthRepository implements IAuthRepository {
     return { id: newUser.id, username: newUser.username }
   }
 
-  async login(username: string, password: string): Promise<{ id: string; username: string }> {
+  async login({
+    username,
+    password,
+  }: {
+    username: string
+    password: string
+  }): Promise<{ id: string; username: string }> {
     const user = this.users.find((u) => u.username === username && u.password === password)
 
     if (!user) {

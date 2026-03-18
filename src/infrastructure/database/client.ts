@@ -3,7 +3,7 @@ import * as SQLite from 'expo-sqlite'
 
 import * as schema from './schema'
 
-const sqlite = SQLite.openDatabaseSync('kanbee.db')
+const sqlite = SQLite.openDatabaseSync('kanbee_v8.db')
 
 sqlite.execSync('PRAGMA foreign_keys = ON;')
 

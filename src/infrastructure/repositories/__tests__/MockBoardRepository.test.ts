@@ -35,7 +35,7 @@ describe('MockBoardRepository', () => {
 
   describe('getBoards', () => {
     it('debería retornar un array vacío al inicio', async () => {
-      const boards = await repository.getBoards()
+      const boards = await repository.getBoards('user-123')
       expect(boards).toEqual([])
     })
 
@@ -49,7 +49,7 @@ describe('MockBoardRepository', () => {
         userId: 'user-123',
       })
 
-      const boards = await repository.getBoards()
+      const boards = await repository.getBoards('user-123')
 
       expect(boards).toHaveLength(2)
       expect(boards).toContainEqual(board1)
@@ -100,7 +100,7 @@ describe('MockBoardRepository', () => {
       await repository.updateBoard('id-fantasma', { title: 'Nuevo' })
 
       // 2. Verificación de seguridad: que el estado siga igual
-      const boards = await repository.getBoards()
+      const boards = await repository.getBoards('user-123')
       expect(boards).toHaveLength(0) // Si empezó vacío, debe seguir vacío
     })
   })
@@ -134,7 +134,7 @@ describe('MockBoardRepository', () => {
       })
 
       await repository.deleteBoard(board1.id)
-      const boards = await repository.getBoards()
+      const boards = await repository.getBoards('user-123')
 
       expect(boards).toHaveLength(1)
       expect(boards[0]).toEqual(board2)

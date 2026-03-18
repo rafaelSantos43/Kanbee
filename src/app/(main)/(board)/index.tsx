@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Pressable, View } from 'react-native'
+import { Alert, Pressable, View } from 'react-native'
 
 import { KText } from '@/components/KText'
 import { Screen } from '@/components/Screen'
@@ -10,15 +10,18 @@ import { useBoardStore } from '@/store/useBoardStore'
 import { BoardList } from '@/features/boards/components/BoardList'
 import { BoardsHeaderLeft } from '@/features/boards/components/BoardsHeaderLeft'
 import { BoardsHeaderRight } from '@/features/boards/components/BoardsHeaderRight'
+import { useSessionStore } from '@/store/useSessionStore'
 
 export default function BoardsScreen() {
   const [isCreateOpen, setIsCreateOpen] = useState(false)
-
+  const user = useSessionStore((state) => state.user)
   const { isLoading, fetchBoards, addBoard } = useBoardStore()
 
   useEffect(() => {
-    fetchBoards()
-  }, [fetchBoards])
+    if (user?.id) {
+      fetchBoards(user.id)
+    }
+  }, [fetchBoards, user?.id])
 
   return (
     <Screen
@@ -44,10 +47,14 @@ export default function BoardsScreen() {
 
         <CreateBoardModal
           visible={isCreateOpen}
-          onClose={() => setIsCreateOpen(false)}
           onSubmit={({ title, color }) => {
-            addBoard({ userId: 'demo-user', title, color, isFavorite: false })
+            if (!user?.id) {
+              Alert.alert('Error', 'No se encontró una sesión activa.')
+              return
+            }
+            addBoard({ userId: user?.id, title, color, isFavorite: false })
           }}
+          onClose={() => setIsCreateOpen(false)}
         />
       </View>
     </Screen>

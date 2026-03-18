@@ -11,6 +11,16 @@ jest.mock('expo-router', () => ({
   }),
 }))
 
+jest.mock('react-native-safe-area-context', () => ({
+  useSafeAreaInsets: () => ({
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  }),
+  SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
+}))
+
 describe('Screen Component', () => {
   it('debería renderizar componente hijo', () => {
     render(
@@ -61,7 +71,7 @@ describe('Screen Component', () => {
 
   it('debería renderizar con botón back por defecto', () => {
     render(
-      <Screen goBack>
+      <Screen enableBack>
         <Text>Content</Text>
       </Screen>,
     )
@@ -71,7 +81,10 @@ describe('Screen Component', () => {
 
   it('debería no renderizar botón back cuando goBack es false', () => {
     render(
-      <Screen goBack={false}>
+      <Screen
+        testID='screen1'
+        enableBack={false}
+      >
         <Text>Content</Text>
       </Screen>,
     )
@@ -83,7 +96,7 @@ describe('Screen Component', () => {
     const { getByTestId: getByTestId1 } = render(
       <Screen
         testID='screen1'
-        withScroll
+        scroll={false}
       >
         <Text testID='content1'>Content</Text>
       </Screen>,

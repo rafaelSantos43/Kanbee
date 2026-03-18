@@ -16,10 +16,24 @@ module.exports = {
   ],
   testPathIgnorePatterns: ['/node_modules/', '/coverage/'],
   testMatch: ['**/__tests__/**/*.test.ts', '**/__tests__/**/*.test.tsx', '**/*.test.ts', '**/*.test.tsx'],
-  globals: {
-    'ts-jest': {
-      jsxFactory: 'React.createElement',
-      jsxFragmentFactory: 'React.Fragment',
+  coverageThreshold: {
+    'src/store/': {
+      branches: 90,
+      functions: 90,
+      lines: 90,
+      statements: 90,
+    },
+    'src/infrastructure/repositories/': {
+      branches: 85,
+      functions: 85,
+      lines: 85,
+      statements: 85,
+    },
+    'src/components/': {
+      branches: 75,
+      functions: 75,
+      lines: 75,
+      statements: 75,
     },
   },
 };

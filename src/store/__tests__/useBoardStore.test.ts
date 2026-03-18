@@ -36,7 +36,7 @@ describe('useBoardStore', () => {
       const { result } = renderHook(() => store())
 
       await act(async () => {
-        await result.current.fetchBoards()
+        await result.current.fetchBoards('user-123')
       })
 
       expect(result.current.boards).toHaveLength(2)
@@ -49,7 +49,7 @@ describe('useBoardStore', () => {
       const { result } = renderHook(() => store())
 
       act(() => {
-        result.current.fetchBoards()
+        result.current.fetchBoards('user-123')
       })
 
       expect(result.current.isLoading).toBe(true)
@@ -73,7 +73,7 @@ describe('useBoardStore', () => {
 
       await act(async () => {
         await result.current.addBoard(newBoard)
-        await result.current.fetchBoards()
+        await result.current.fetchBoards('user-123')
       })
 
       expect(result.current.boards).toHaveLength(1)
@@ -92,14 +92,14 @@ describe('useBoardStore', () => {
       const { result } = renderHook(() => store())
 
       await act(async () => {
-        await result.current.fetchBoards()
+        await result.current.fetchBoards('user-123')
       })
 
       expect(result.current.boards).toHaveLength(1)
 
       await act(async () => {
         await result.current.removeBoard(board.id)
-        await result.current.fetchBoards()
+        await result.current.fetchBoards('user-123')
       })
 
       expect(result.current.boards).toHaveLength(0)

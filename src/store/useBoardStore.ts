@@ -11,15 +11,12 @@ interface BoardStoreState {
   boards: Board[]
   searchQuery: string
   setSearchQuery: (query: string) => void
-  //getFilteredBoards: () => Board[]
   isLoading: boolean
   error: string | null
-  fetchBoards: () => Promise<void>
+  fetchBoards: (userId: string) => Promise<void>
   addBoard: (board: BoardInput) => Promise<void>
   removeBoard: (id: string) => Promise<void>
 }
-
-//const defaultRepository = new SQLiteBoardRepository()
 
 const defaultRepository = process.env.NODE_ENV === 'test' ? new MockBoardRepository() : new SQLiteBoardRepository()
 
@@ -30,22 +27,17 @@ export const createBoardStore = (repository: IBoardRepository = defaultRepositor
     isLoading: false,
     error: null,
     setSearchQuery: (query) => set({ searchQuery: query }),
-    async fetchBoards() {
+
+    async fetchBoards(userId: string) {
       set({ isLoading: true, error: null })
       try {
-        const result = await repository.getBoards()
+        const result = await repository.getBoards(userId)
         set({ boards: result, isLoading: false })
       } catch (error) {
         const message = error instanceof Error ? error.message : 'Failed to load boards'
         set({ error: message, isLoading: false })
       }
     },
-
-    // getFilteredBoards: () => {
-    //   const { boards, searchQuery } = get()
-    //   if (!searchQuery) return boards
-    //   return boards.filter((b) => b.title.toLowerCase().includes(searchQuery.toLowerCase()))
-    // },
 
     async addBoard(boardInput: BoardInput) {
       set({ isLoading: true, error: null })

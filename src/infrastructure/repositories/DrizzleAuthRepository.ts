@@ -1,20 +1,33 @@
+import { Role } from '@/constants/roles'
 import { IAuthRepository } from '@/core/interfaces/IAuthRepository'
 import { db } from '@/infrastructure/database/client'
 import { eq, or } from 'drizzle-orm'
+import 'react-native-get-random-values'
+import { v4 as uuid } from 'uuid'
 import { users } from '../database/schema'
-
 export class DrizzleAuthRepository implements IAuthRepository {
-  async register(username: string, email: string, password: string, avatar?: string) {
-    // 1. Insertar en la base de datos
-    // Nota: Aquí deberías hashear la password antes (ej: con bcrypt)
+  async register({
+    username,
+    email,
+    password,
+    role,
+    avatar,
+  }: {
+    username: string
+    email: string
+    password: string
+    avatar: string | null
+    role: Role
+  }) {
     const [newUser] = await db
       .insert(users)
       .values({
-        id: crypto.randomUUID(),
+        id: uuid(),
         username,
         email,
-        passwordHash: password, // ¡Hasheala en producción!
+        password,
         avatar: avatar ?? null,
+        role,
         createdAt: Date.now(),
       })
       .returning()
@@ -22,14 +35,13 @@ export class DrizzleAuthRepository implements IAuthRepository {
     return newUser
   }
 
-  async login(identifier: string, password: string) {
-    // 2. Buscar por username O por email
+  async login({ username: identifier, password }: { username: string; password: string }) {
     const [user] = await db
       .select()
       .from(users)
       .where(or(eq(users.username, identifier), eq(users.email, identifier)))
 
-    if (!user || user.passwordHash !== password) {
+    if (!user || user.password !== password) {
       throw new Error('Credenciales incorrectas')
     }
 
@@ -38,6 +50,8 @@ export class DrizzleAuthRepository implements IAuthRepository {
       username: user.username,
       email: user.email,
       avatar: user.avatar,
+      role: user.role,
+      createdAt: user.createdAt,
     }
   }
 

@@ -1,34 +1,28 @@
-import * as SQLite from 'expo-sqlite';
+import { db } from './client'
+import { sql } from 'drizzle-orm'
 
-let initialized = false;
+let initialized = false
 
 export async function initializeDatabase(): Promise<void> {
-  if (initialized) return;
+  if (initialized) return
 
-  const db = SQLite.openDatabaseSync('kanbee.db');
+  db.run(sql`PRAGMA foreign_keys = ON;`)
 
-  // Ensure foreign keys are always enforced on this connection.
-  db.execSync('PRAGMA foreign_keys = ON;');
-
-  db.execSync(`
+  db.run(sql`
     CREATE TABLE IF NOT EXISTS users (
-      id TEXT PRIMARY KEY,
+      id TEXT PRIMARY KEY NOT NULL,
       username TEXT NOT NULL UNIQUE,
-      password_hash TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL,
+      avatar TEXT,
+      role TEXT NOT NULL,
       created_at INTEGER NOT NULL
     );
-  `);
+  `)
 
-  // Seed a default demo user so feature flows that use "demo-user" work
-  // without violating the foreign key constraint on boards.user_id.
-  db.execSync(`
-    INSERT OR IGNORE INTO users (id, username, password_hash, created_at)
-    VALUES ('demo-user', 'demo', 'demo-password', CAST(strftime('%s','now') AS INTEGER) * 1000);
-  `);
-
-  db.execSync(`
+  db.run(sql`
     CREATE TABLE IF NOT EXISTS boards (
-      id TEXT PRIMARY KEY,
+      id TEXT PRIMARY KEY NOT NULL,
       user_id TEXT NOT NULL,
       title TEXT NOT NULL,
       color TEXT,
@@ -37,11 +31,11 @@ export async function initializeDatabase(): Promise<void> {
       updated_at INTEGER,
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     );
-  `);
+  `)
 
-  db.execSync(`
+  db.run(sql`
     CREATE TABLE IF NOT EXISTS lists (
-      id TEXT PRIMARY KEY,
+      id TEXT PRIMARY KEY NOT NULL,
       board_id TEXT NOT NULL,
       title TEXT NOT NULL,
       order_index INTEGER NOT NULL,
@@ -49,22 +43,21 @@ export async function initializeDatabase(): Promise<void> {
       updated_at INTEGER,
       FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE
     );
-  `);
+  `)
 
-  db.execSync(`
+  db.run(sql`
     CREATE TABLE IF NOT EXISTS cards (
-      id TEXT PRIMARY KEY,
+      id TEXT PRIMARY KEY NOT NULL,
       list_id TEXT NOT NULL,
       title TEXT NOT NULL,
       description TEXT,
-      status TEXT NOT NULL CHECK (status IN ('todo', 'in-progress', 'done', 'blocked')),
+      status TEXT NOT NULL,
       order_index INTEGER NOT NULL,
       created_at INTEGER NOT NULL,
       updated_at INTEGER,
       FOREIGN KEY (list_id) REFERENCES lists(id) ON DELETE CASCADE
     );
-  `);
+  `)
 
-  initialized = true;
+  initialized = true
 }
-

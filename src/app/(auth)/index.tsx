@@ -2,48 +2,120 @@ import { KText } from '@/components/KText'
 import { KTextInput } from '@/components/KTextInput'
 import { Screen } from '@/components/Screen'
 import { Colors } from '@/constants/theme'
+import { useLogin } from '@/features/auth/hooks/useLogin'
+import { LoginFormData, loginSchema } from '@/features/auth/schemas/login.schema'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Image } from 'expo-image'
+import { router } from 'expo-router'
 import { LockKeyhole, Mail } from 'lucide-react-native'
+import { Controller, useForm } from 'react-hook-form'
 import { Pressable, View } from 'react-native'
-//SHA256:1h4+I/scR+sj1GqF5vftjNzc2F0Gr7yDmvW7LOV4wsM rafa33afrojack@hotmail.com
+
+const navigateToRegiterScreen = () => {
+  router.push('/(auth)/register')
+}
 export default function LoginScreen() {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: '',
+      password: '',
+    },
+  })
+
+  const { submit, loadingSession } = useLogin()
+
+  const onSubmit = (data: LoginFormData) => {
+    submit(data.username, data.password)
+  }
+
   return (
-    <Screen enableBack={false}>
-      <View className=' flex-1 justify-between '>
-        <View className='items-center '>
+    <Screen
+      scroll
+      enableBack={false}
+    >
+      <View className=' justify-around  flex-1'>
+        <View className='items-center'>
           <Image
             source={require('../../../assets/images/icon_app.png')}
-            style={{ width: 150, height: 150 }}
+            style={{ width: 180, height: 180 }}
             contentFit='contain'
           />
         </View>
-        <View className='flex-1   p-8  rounded-lg bg-slate-50'>
-          <KTextInput
-            leftIcon={<Mail color={Colors.light.icon} />}
-            label='email'
-            placeholder='devdesarrollo@company.com'
-          />
-          <KTextInput
-            leftIcon={<LockKeyhole color={Colors.light.icon} />}
-            label='password'
-            placeholder='*******'
-          />
+        <View className='bottom-4 p-8  rounded-lg bg-slate-50'>
+          <View style={{ minHeight: 80 }}>
+            <Controller
+              control={control}
+              name='username'
+              render={({ field: { onChange, onBlur, value } }) => (
+                <KTextInput
+                  label='email'
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  leftIcon={<Mail color={Colors.light.icon} />}
+                  placeholder='devdesarrollo@company.com'
+                  autoCorrect={false}
+                  spellCheck={false}
+                  value={value}
+                />
+              )}
+            />
+            {errors.username && (
+              <KText
+                className='bottom-5'
+                style={{ color: 'red' }}
+                label={errors.username.message}
+              />
+            )}
+          </View>
 
-          <Pressable className='items-center bg-kanbee-yellow p-4 rounded-lg'>
+          <View style={{ minHeight: 80 }}>
+            <Controller
+              control={control}
+              name='password'
+              render={({ field: { onChange, onBlur, value } }) => (
+                <KTextInput
+                  leftIcon={<LockKeyhole color={Colors.light.icon} />}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  label='password'
+                  placeholder='*******'
+                  autoCorrect={false}
+                  spellCheck={false}
+                  value={value}
+                  secureTextEntry
+                />
+              )}
+            />
+            {errors.password && (
+              <KText
+                className='bottom-5'
+                style={{ color: 'red' }}
+                label={errors.password.message}
+              />
+            )}
+          </View>
+
+          <Pressable
+            disabled={loadingSession}
+            onPress={handleSubmit(onSubmit)}
+            className='items-center bg-kanbee-yellow p-4  mt-2 rounded-lg'
+          >
             <KText
               variant='label'
-              label='SIGNIN'
+              label={loadingSession ? 'loading' : 'SIGNIN'}
             />
           </Pressable>
-          <KText
-            className='text-center py-4'
-            label='------------or-----------'
-          />
         </View>
-
-        <View className='bottom-3 flex-row border justify-center gap-2'>
+        <View className='flex-row  justify-center gap-2'>
           <KText label='Dont have an account?' />
-          <KText label='Create Cunt' />
+          <Pressable onPress={navigateToRegiterScreen}>
+            <KText label='Create account' />
+          </Pressable>
         </View>
       </View>
     </Screen>

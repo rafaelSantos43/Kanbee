@@ -1,0 +1,25 @@
+# Carpetas pesadas
+node_modules/
+.expo/
+.git/
+
+# Bases de datos
+*.db
+*.sqlite
+*.sqlite-journal
+
+# Binarios e imágenes
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.ico
+
+# Build y entorno
+dist/
+build/
+coverage/
+.env*
+
+# Lock files binarios
+bun.lockb

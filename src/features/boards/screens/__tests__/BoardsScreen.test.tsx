@@ -1,10 +1,16 @@
 import { useBoardStore } from '@/store/useBoardStore'
 import { render, screen, waitFor } from '@testing-library/react-native'
-import BoardsScreen from '../../../../app/(main)/(board)/index'
+import BoardsScreen from '@/app/(main)/(board)/index'
 
-// MOCK STORE
+// MOCK STORES
 jest.mock('@/store/useBoardStore', () => ({
   useBoardStore: jest.fn(),
+}))
+
+jest.mock('@/store/useSessionStore', () => ({
+  useSessionStore: jest.fn((selector: any) =>
+    selector({ user: { id: 'user-123', username: 'test' }, authenticated: true }),
+  ),
 }))
 
 // MOCK UI COMPONENTS

@@ -14,17 +14,17 @@ interface SessionActions {
   setHydrated: () => void
 }
 
-const initialState: SessionState = {
+const initialState: Omit<SessionState, 'hydrated'> = {
   user: null,
   authenticated: false,
   hasSeenTasksHint: false,
-  hydrated: false,
 }
 
 export const useSessionStore = create(
   persist<SessionState & SessionActions>(
     (set, get) => ({
       ...initialState,
+      hydrated: false,
       isAuthenticated: () => get().authenticated,
       setSession: (session) =>
         set({
@@ -40,6 +40,7 @@ export const useSessionStore = create(
       logOut: () =>
         set({
           ...initialState,
+          hydrated: true,
         }),
 
       setHydrated: () =>
@@ -51,17 +52,8 @@ export const useSessionStore = create(
       name: process.env.EXPO_PUBLIC_LOCALSTORAGE_USER_KEY ?? 'user-session',
       storage: createJSONStorage(() => AsyncStorage),
       onRehydrateStorage: (state) => {
-        // Esta función se ejecuta cuando el store empieza a cargar
-        console.log('Iniciando hidratación...')
-
         return (state, error) => {
-          if (error) {
-            console.log('Error durante la hidratación:', error)
-          } else {
-            // Cuando termina con éxito, marcamos como hidratado
-            state?.setHydrated()
-            console.log('¡Hidratación completada!')
-          }
+          if (!error) state?.setHydrated()
         }
       },
     },

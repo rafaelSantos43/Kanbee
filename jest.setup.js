@@ -1,15 +1,23 @@
 /* eslint-env jest */
 import 'react-native-gesture-handler/jestSetup';
 
-// Suprimir advertencias no necesarias en tests
+// Suprimir warnings específicos de librerías que no aportan en tests
+const originalWarn = console.warn;
 global.console = {
   ...console,
-  warn: jest.fn(),
-  // Mantener otros métodos
-  error: console.error,
-  info: console.info,
-  debug: console.debug,
-  log: console.log,
+  warn: (...args) => {
+    const message = typeof args[0] === 'string' ? args[0] : '';
+    // Silenciar solo warnings conocidos de React Native / Expo en entorno de test
+    if (
+      message.includes('Animated: `useNativeDriver`') ||
+      message.includes('componentWillReceiveProps') ||
+      message.includes('componentWillMount') ||
+      message.includes('react-i18next:: useTranslation')
+    ) {
+      return;
+    }
+    originalWarn.apply(console, args);
+  },
 };
 
 // Mocks básicos para que Jest no explote con Expo

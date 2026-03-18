@@ -7,8 +7,8 @@ export class MockBoardRepository implements IBoardRepository {
   private boards: Board[] = []
   private idCounter = 0
 
-  async getBoards(): Promise<Board[]> {
-    return this.boards
+  async getBoards(userId: string): Promise<Board[]> {
+    return this.boards.filter((b) => b.userId === userId)
   }
 
   async getBoardById(id: string): Promise<Board | null> {

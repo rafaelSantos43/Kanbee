@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1773421845967,
-      "tag": "0000_icy_blue_blade",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1773421887862,
-      "tag": "0001_solid_cassandra_nova",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1773422102015,
-      "tag": "0002_workable_songbird",
+      "when": 1773759853047,
+      "tag": "0000_short_vargas",
       "breakpoints": true
     }
   ]
