@@ -27,7 +27,6 @@ export function CreateBoardModal({ visible, onClose, onSubmit }: Props) {
       transparent
       visible={visible}
       onRequestClose={onClose}
-      statusBarTranslucent
     >
       <KeyboardAvoidingView
         behavior={isIOS ? 'padding' : undefined}

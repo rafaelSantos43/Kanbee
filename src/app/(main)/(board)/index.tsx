@@ -25,7 +25,6 @@ export default function BoardsScreen() {
 
   return (
     <Screen
-      scroll={false}
       enableBack={false}
       leftIcon={<BoardsHeaderLeft />}
       rightIcon={<BoardsHeaderRight />}
