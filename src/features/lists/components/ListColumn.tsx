@@ -21,6 +21,12 @@ type ListColumnProps = {
     title: string;
     description?: string;
     status: Card["status"];
+    priority?: Card["priority"];
+    responsibleId?: Card["responsibleId"];
+    coverColor?: Card["coverColor"];
+    coverImage?: Card["coverImage"];
+    dueDate?: Card["dueDate"];
+    startDate?: Card["startDate"];
   }) => void;
   onDragStart: (
     card: Card,
@@ -56,7 +62,7 @@ export const ListColumn = ({
   return (
     <View className="flex-1 px-4">
       <View className="py-3 flex-row justify-between items-center">
-        <KText variant="h2" label={list.title} />
+        <KText variant="h2" label={`${list.title} (${cards.length})`} />
         <KText variant="h2" label="..." />
       </View>
 
@@ -92,15 +98,15 @@ export const ListColumn = ({
 
       <Pressable
         onPress={() => setVisible(true)}
-        className="border mb-4 p-4 rounded-xl items-center"
+        className="mb-4 self-center p-3 w-72 bg-blue-500 rounded-xl items-center bg-"
       >
-        <KText label="CREATE_CARD" />
+        <KText className="text-neutral-200 font-semibold" label="CREATE_CARD" />
       </Pressable>
 
       <CreateCardModal
         visible={visible}
-        onSubmit={({ title, description, status }) => {
-          onAddCard({ title, description, status });
+        onSubmit={(data) => {
+          onAddCard(data);
         }}
         onClose={() => setVisible(false)}
       />

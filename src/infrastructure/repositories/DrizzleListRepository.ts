@@ -20,8 +20,10 @@ function mapRowToEntity(row: typeof lists.$inferSelect): List {
     boardId: row.boardId,
     orderIndex: row.orderIndex,
     title: row.title,
+    isArchived: row.isArchived ?? false,
     createdAt: row.createdAt,
     updatedAt: row.updatedAt ?? undefined,
+    archivedAt: row.archivedAt ?? undefined,
   }
 }
 
@@ -53,7 +55,9 @@ export class DrizzleListRepository implements IListRepository {
           boardId: list.boardId,
           orderIndex: list.orderIndex,
           title: list.title,
+          isArchived: list.isArchived ?? false,
           createdAt,
+          archivedAt: list.archivedAt ?? null,
         })
         .returning()
 
@@ -61,7 +65,7 @@ export class DrizzleListRepository implements IListRepository {
     })
   }
 
-  async updateList(id: string, data: Partial<Pick<List, 'title' | 'orderIndex'>>): Promise<void> {
+  async updateList(id: string, data: Partial<Pick<List, 'title' | 'orderIndex' | 'isArchived' | 'archivedAt'>>): Promise<void> {
     return withFakeLatency(async () => {
       const updateData: Partial<typeof lists.$inferInsert> = {}
       if (data.title !== undefined) {
@@ -70,6 +74,12 @@ export class DrizzleListRepository implements IListRepository {
 
       if (data.orderIndex !== undefined) {
         updateData.orderIndex = data.orderIndex
+      }
+      if (data.isArchived !== undefined) {
+        updateData.isArchived = data.isArchived
+      }
+      if (data.archivedAt !== undefined) {
+        updateData.archivedAt = data.archivedAt ?? null
       }
 
       updateData.updatedAt = Date.now()

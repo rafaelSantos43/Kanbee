@@ -37,7 +37,16 @@ export default function MainLayout() {
         headerShown: false,
       }}
       drawerContent={DrawerContent}
-    />
+    >
+      <Drawer.Screen
+        name='(board)'
+        options={{ headerShown: false }}
+      />
+      <Drawer.Screen
+        name='(cardDetails)'
+        options={{ headerShown: false }}
+      />
+    </Drawer>
   )
 }
 

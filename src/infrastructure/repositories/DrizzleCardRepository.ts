@@ -18,12 +18,21 @@ function mapRowToEntity(row: typeof cards.$inferSelect): Card {
   return {
     id: row.id,
     listId: row.listId,
+    responsibleId: row.responsibleId ?? undefined,
     orderIndex: row.orderIndex,
     title: row.title,
     description: row.description ?? undefined,
+    priority: row.priority ?? undefined,
+    coverColor: row.coverColor ?? undefined,
+    coverImage: row.coverImage ?? undefined,
+    dueDate: row.dueDate ?? undefined,
+    startDate: row.startDate ?? undefined,
+    completedAt: row.completedAt ?? undefined,
+    isArchived: row.isArchived ?? false,
     createdAt: row.createdAt,
     status: row.status,
     updatedAt: row.updatedAt ?? undefined,
+    archivedAt: row.archivedAt ?? undefined,
   }
 }
 
@@ -53,39 +62,84 @@ export class DrizzleCardRepository implements ICardRepository {
         .values({
           id,
           listId: card.listId,
+          responsibleId: card.responsibleId ?? null,
           title: card.title,
-          description: card.description,
+          description: card.description ?? null,
           status: card.status,
+          priority: card.priority ?? null,
           orderIndex: card.orderIndex,
+          coverColor: card.coverColor ?? null,
+          coverImage: card.coverImage ?? null,
+          dueDate: card.dueDate ?? null,
+          startDate: card.startDate ?? null,
+          completedAt: card.completedAt ?? null,
+          isArchived: card.isArchived ?? false,
           createdAt,
+          archivedAt: card.archivedAt ?? null,
         })
         .returning()
       return mapRowToEntity(inserted)
     })
   }
 
-  async updateCard(id: string, data: Partial<Pick<Card, 'title' | 'description' | 'orderIndex' | 'listId' | 'status'>>): Promise<void> {
+  async updateCard(id: string, data: Partial<Omit<Card, 'id' | 'createdAt'>>): Promise<void> {
     return withFakeLatency(async () => {
       const updateData: Partial<typeof cards.$inferInsert> = {}
+
+      if (data.listId !== undefined) {
+        updateData.listId = data.listId
+      }
+
+      if (data.responsibleId !== undefined) {
+        updateData.responsibleId = data.responsibleId ?? null
+      }
 
       if (data.title !== undefined) {
         updateData.title = data.title
       }
 
       if (data.description !== undefined) {
-        updateData.description = data.description
+        updateData.description = data.description ?? null
+      }
+
+      if (data.status !== undefined) {
+        updateData.status = data.status
+      }
+
+      if (data.priority !== undefined) {
+        updateData.priority = data.priority ?? null
       }
 
       if (data.orderIndex !== undefined) {
         updateData.orderIndex = data.orderIndex
       }
 
-      if (data.listId !== undefined) {
-        updateData.listId = data.listId
+      if (data.coverColor !== undefined) {
+        updateData.coverColor = data.coverColor ?? null
       }
 
-      if (data.status !== undefined) {
-        updateData.status = data.status
+      if (data.coverImage !== undefined) {
+        updateData.coverImage = data.coverImage ?? null
+      }
+
+      if (data.dueDate !== undefined) {
+        updateData.dueDate = data.dueDate ?? null
+      }
+
+      if (data.startDate !== undefined) {
+        updateData.startDate = data.startDate ?? null
+      }
+
+      if (data.completedAt !== undefined) {
+        updateData.completedAt = data.completedAt ?? null
+      }
+
+      if (data.isArchived !== undefined) {
+        updateData.isArchived = data.isArchived
+      }
+
+      if (data.archivedAt !== undefined) {
+        updateData.archivedAt = data.archivedAt ?? null
       }
 
       updateData.updatedAt = Date.now()

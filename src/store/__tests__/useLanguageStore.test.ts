@@ -149,7 +149,7 @@ describe('useLanguageStore - Language Change Functionality', () => {
 
   describe('Manejo de Errores', () => {
     it('debería manejar errores al cambiar idioma sin romper el estado', async () => {
-      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
       ;(i18n.changeLanguage as jest.Mock).mockRejectedValueOnce(new Error('Failed to change language'))
 
       const { result } = renderHook(() => useLanguageStore())
@@ -164,7 +164,7 @@ describe('useLanguageStore - Language Change Functionality', () => {
     })
 
     it('debería continuar funcionando después de un error', async () => {
-      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
       ;(i18n.changeLanguage as jest.Mock).mockRejectedValueOnce(new Error('Network error'))
 
       const { result } = renderHook(() => useLanguageStore())
@@ -223,7 +223,7 @@ describe('useLanguageStore - Language Change Functionality', () => {
         await result.current.setLanguage('es')
       })
 
-      rerender()
+      rerender(undefined)
 
       // El hook debería re-renderizarse
       expect(renderCount).toBeGreaterThan(initialRenderCount)

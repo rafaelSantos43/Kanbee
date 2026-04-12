@@ -3,11 +3,11 @@ import { render, screen } from '@testing-library/react-native'
 import React from 'react'
 import { Text } from 'react-native'
 
-// Mock expo-router
 jest.mock('expo-router', () => ({
   useRouter: () => ({
     back: jest.fn(),
     push: jest.fn(),
+    canGoBack: jest.fn(() => true),
   }),
 }))
 
@@ -21,8 +21,15 @@ jest.mock('react-native-safe-area-context', () => ({
   SafeAreaProvider: ({ children }: { children: React.ReactNode }) => children,
 }))
 
+jest.mock('lucide-react-native', () => ({
+  ChevronLeft: () => {
+    const { Text: MockText } = require('react-native')
+    return <MockText>back-icon</MockText>
+  },
+}))
+
 describe('Screen Component', () => {
-  it('debería renderizar componente hijo', () => {
+  it('deberia renderizar componente hijo', () => {
     render(
       <Screen>
         <Text>Child Content</Text>
@@ -32,7 +39,7 @@ describe('Screen Component', () => {
     expect(screen.getByText('Child Content')).toBeTruthy()
   })
 
-  it('debería renderizar título', () => {
+  it('deberia renderizar titulo', () => {
     render(
       <Screen title='Test Title'>
         <Text>Content</Text>
@@ -42,7 +49,7 @@ describe('Screen Component', () => {
     expect(screen.getByText('Test Title')).toBeTruthy()
   })
 
-  it('debería renderizar subtítulo', () => {
+  it('deberia renderizar subtitulo', () => {
     render(
       <Screen
         title='Title'
@@ -55,7 +62,7 @@ describe('Screen Component', () => {
     expect(screen.getByText('Subtitle')).toBeTruthy()
   })
 
-  it('debería renderizar con iconos personalizados', () => {
+  it('deberia renderizar con iconos personalizados', () => {
     render(
       <Screen
         leftIcon={<Text>LeftIcon</Text>}
@@ -69,17 +76,17 @@ describe('Screen Component', () => {
     expect(screen.getByText('RightIcon')).toBeTruthy()
   })
 
-  it('debería renderizar con botón back por defecto', () => {
+  it('deberia renderizar con boton back por defecto', () => {
     render(
       <Screen enableBack>
         <Text>Content</Text>
       </Screen>,
     )
 
-    expect(screen.getByText('←')).toBeTruthy()
+    expect(screen.getByText('back-icon')).toBeTruthy()
   })
 
-  it('debería no renderizar botón back cuando goBack es false', () => {
+  it('deberia no renderizar boton back cuando enableBack es false', () => {
     render(
       <Screen
         testID='screen1'
@@ -89,10 +96,10 @@ describe('Screen Component', () => {
       </Screen>,
     )
 
-    expect(screen.queryByText('←')).toBeFalsy()
+    expect(screen.queryByText('back-icon')).toBeNull()
   })
 
-  it('debería renderizar sin errores con diferentes configuraciones', () => {
+  it('deberia renderizar sin errores con diferentes configuraciones', () => {
     const { getByTestId: getByTestId1 } = render(
       <Screen
         testID='screen1'

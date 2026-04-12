@@ -1,6 +1,11 @@
 import type { ICardRepository } from '@/core/interfaces/ICardRepository'
 import { MockCardRepository } from '@/infrastructure/repositories/testing/MockCardRepository'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
+
+jest.mock('@/infrastructure/repositories/DrizzleCardRepository', () => ({
+  DrizzleCardRepository: jest.fn(),
+}))
+
 import { createCardStore } from '../useCardStore'
 
 describe('useCardStore', () => {

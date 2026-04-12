@@ -1,52 +1,57 @@
-import { useBoardStore } from '@/store/useBoardStore'
-import { render, screen, waitFor } from '@testing-library/react-native'
-import BoardsScreen from '@/app/(main)/(board)/index'
+import BoardsScreen from "@/app/(main)/(board)/index";
+import { useBoardStore } from "@/store/useBoardStore";
+import { render, screen, waitFor } from "@testing-library/react-native";
 
 // MOCK STORES
-jest.mock('@/store/useBoardStore', () => ({
+jest.mock("@/store/useBoardStore", () => ({
   useBoardStore: jest.fn(),
-}))
+}));
 
-jest.mock('@/store/useSessionStore', () => ({
+jest.mock("@/store/useSessionStore", () => ({
   useSessionStore: jest.fn((selector: any) =>
-    selector({ user: { id: 'user-123', username: 'test' }, authenticated: true }),
+    selector({
+      user: { id: "user-123", username: "test" },
+      authenticated: true,
+    }),
   ),
-}))
+}));
 
 // MOCK UI COMPONENTS
-jest.mock('@/components/Screen', () => {
-  const { View } = require('react-native')
+jest.mock("@/components/Screen", () => {
+  const { View } = require("react-native");
   return {
-    Screen: ({ children }: any) => <View testID='mock-screen'>{children}</View>,
-  }
-})
+    Screen: ({ children }: any) => <View testID="mock-screen">{children}</View>,
+  };
+});
 
-jest.mock('@/components/KText', () => {
-  const { Text } = require('react-native')
+jest.mock("@/components/KText", () => {
+  const { Text } = require("react-native");
 
   return {
-    KText: ({ label, children, ...props }: any) => <Text {...props}>{label || children}</Text>,
-  }
-})
+    KText: ({ label, children, ...props }: any) => (
+      <Text {...props}>{label || children}</Text>
+    ),
+  };
+});
 
 // MOCK INFRASTRUCTURE
-jest.mock('@/infrastructure/database/client', () => ({
+jest.mock("@/infrastructure/database/client", () => ({
   db: {
     select: jest.fn(),
     insert: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
   },
-}))
+}));
 
-jest.mock('expo-sqlite', () => ({
+jest.mock("expo-sqlite", () => ({
   openDatabaseSync: jest.fn(() => ({
     execSync: jest.fn(),
   })),
-}))
+}));
 
 // MOCK ROUTER
-jest.mock('expo-router', () => ({
+jest.mock("expo-router", () => ({
   useRouter: () => ({
     push: jest.fn(),
     replace: jest.fn(),
@@ -54,54 +59,54 @@ jest.mock('expo-router', () => ({
   Stack: {
     Screen: () => null,
   },
-}))
+}));
 
-describe('BoardsScreen Integration Test', () => {
-  const mockFetchBoards = jest.fn()
-  const mockAddBoard = jest.fn()
+describe("BoardsScreen Integration Test", () => {
+  const mockFetchBoards = jest.fn();
+  const mockAddBoard = jest.fn();
 
   beforeEach(() => {
-    jest.clearAllMocks()
-    ;(useBoardStore as unknown as jest.Mock).mockReturnValue({
+    jest.clearAllMocks();
+    (useBoardStore as unknown as jest.Mock).mockReturnValue({
       isLoading: false,
       fetchBoards: mockFetchBoards,
       addBoard: mockAddBoard,
       boards: [],
-      searchQuery: '',
-    })
-  })
+      searchQuery: "",
+    });
+  });
 
   afterEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
 
-  it('debería cargar la pantalla y ejecutar fetchBoards', async () => {
-    render(<BoardsScreen />)
+  it("debería cargar la pantalla y ejecutar fetchBoards", async () => {
+    render(<BoardsScreen />);
 
     await waitFor(() => {
-      expect(mockFetchBoards).toHaveBeenCalled()
-    })
-  })
+      expect(mockFetchBoards).toHaveBeenCalled();
+    });
+  });
 
-  it('debería mostrar los tableros si el store tiene datos', async () => {
-    ;(useBoardStore as unknown as jest.Mock).mockReturnValue({
+  it("debería mostrar los tableros si el store tiene datos", async () => {
+    (useBoardStore as unknown as jest.Mock).mockReturnValue({
       isLoading: false,
       fetchBoards: mockFetchBoards,
       addBoard: mockAddBoard,
       boards: [
         {
-          id: '1',
-          title: 'Proyecto Abeja',
-          color: '#FFD24D',
+          id: "1",
+          title: "Proyecto Abeja",
+          color: "#FFD24D",
         },
       ],
-      searchQuery: '',
-    })
+      searchQuery: "",
+    });
 
-    render(<BoardsScreen />)
+    render(<BoardsScreen />);
 
     await waitFor(() => {
-      expect(screen.getByText('Proyecto Abeja')).toBeTruthy()
-    })
-  })
-})
+      expect(screen.getByText("Proyecto Abeja")).toBeTruthy();
+    });
+  });
+});

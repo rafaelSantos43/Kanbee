@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2d88f0d1-2ad3-4533-9ffa-4254f314f5df" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/Kanbee.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/deviceManager.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/drizzle/0001_swift_toad.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/drizzle/meta/0001_snapshot.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/kanbee_v8.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(main)/(board)/settingsBoard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UserImage.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/core/utils/getInitilaNames.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/boards/hooks/useBoard.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/features/lists/hooks/useDragAndDropBoard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bun.lockb" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lockb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/drizzle.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/drizzle.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/drizzle/meta/_journal.json" beforeDir="false" afterPath="$PROJECT_DIR$/drizzle/meta/_journal.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(main)/(board)/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/(board)/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(main)/(board)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/(board)/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(main)/(cardDetails)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/(cardDetails)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(main)/(cardDetails)/comments.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/(cardDetails)/comments.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(main)/(cardDetails)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/(cardDetails)/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(main)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(main)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/KText.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KText.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/KTextInput.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/KTextInput.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Screen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Screen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/__tests__/Screen.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/__tests__/Screen.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/parallax-scroll-view.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/parallax-scroll-view.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ui/icon-symbol.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ui/icon-symbol.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/routeNames.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/routeNames.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/entities/board.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/entities/board.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/entities/card.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/entities/card.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/entities/list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/entities/list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/entities/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/entities/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/interfaces/IBoardRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/interfaces/IBoardRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/interfaces/ICardRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/interfaces/ICardRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/interfaces/ListRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/interfaces/ListRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/auth/hooks/useRegister.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/auth/hooks/useRegister.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/boards/components/BoardList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/boards/components/BoardList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/boards/components/CreateBoardModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/boards/components/CreateBoardModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/boards/components/SearchBoard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/boards/components/SearchBoard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/boards/screens/__tests__/BoardsScreen.test.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/boards/screens/__tests__/BoardsScreen.test.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/cards/components/CreateCardModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/cards/components/CreateCardModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/cards/components/DraggableCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/cards/components/DraggableCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/lists/components/CreateListModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/lists/components/CreateListModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/lists/components/ListColumn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/lists/components/ListColumn.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/use-theme-color.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/use-theme-color.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/database/client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/database/client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/database/migrations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/database/migrations.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/database/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/database/schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/repositories/DrizzleCardRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/repositories/DrizzleCardRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/repositories/DrizzleListRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/repositories/DrizzleListRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/repositories/SQLiteBoardRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/repositories/SQLiteBoardRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/repositories/testing/MockBoardRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/repositories/testing/MockBoardRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/repositories/testing/MockCardRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/repositories/testing/MockCardRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/repositories/testing/MockListRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/repositories/testing/MockListRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/__tests__/useBoardStore.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/__tests__/useBoardStore.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/__tests__/useCardStore.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/__tests__/useCardStore.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/__tests__/useLanguageStore.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/__tests__/useLanguageStore.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/__tests__/useListStore.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/__tests__/useListStore.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/useBoardStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/useBoardStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/useCardStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/useCardStore.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/useListStore.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/useListStore.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="3BQ3ar7aoByi25rQr2hyWxFiaJh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "ToolWindow.Running Devices.ShowToolbar": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.streaming.emulator.frame.visible": "false",
+    "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
+    "git-widget-placeholder": "db-sdk",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/quint/OneDrive/Desktop/Kanbee"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2d88f0d1-2ad3-4533-9ffa-4254f314f5df" name="Changes" comment="" />
+      <created>1774407534376</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1774407534376</updated>
+    </task>
+    <servers />
+  </component>
+</project>

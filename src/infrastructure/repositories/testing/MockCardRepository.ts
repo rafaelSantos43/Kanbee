@@ -18,12 +18,14 @@ export class MockCardRepository implements ICardRepository {
       ...card,
       id: `mock-id-${++this.idCounter}`,
       createdAt: Date.now(),
+      status: card.status ?? 'todo',
+      isArchived: card.isArchived ?? false,
     }
 
     this.cards.push(newCard)
     return newCard
   }
-  async updateCard(id: string, data: Partial<Pick<Card, 'title' | 'description' | 'orderIndex' | 'listId' | 'status'>>): Promise<void> {
+  async updateCard(id: string, data: Partial<Omit<Card, 'id' | 'createdAt'>>): Promise<void> {
     const index = this.cards.findIndex((c) => c.id === id)
 
     if (index !== -1) {

@@ -14,7 +14,7 @@ interface ListStoreState {
   error: string | null
   fetchLists: (boardId: string) => Promise<void>
   addList: (list: ListInput) => Promise<void>
-  updateList: (id: string, data: Partial<Pick<List, 'title' | 'orderIndex'>>) => Promise<void>
+  updateList: (id: string, data: Partial<Pick<List, 'title' | 'orderIndex' | 'isArchived' | 'archivedAt'>>) => Promise<void>
   removeList: (id: string) => Promise<void>
 }
 
@@ -55,7 +55,7 @@ export const createListStore = (repository: IListRepository = defaultRepository)
       }
     },
 
-    async updateList(id: string, data: Partial<Pick<List, 'title' | 'orderIndex'>>) {
+    async updateList(id: string, data: Partial<Pick<List, 'title' | 'orderIndex' | 'isArchived' | 'archivedAt'>>) {
       set({ isLoading: true, error: null })
 
       try {

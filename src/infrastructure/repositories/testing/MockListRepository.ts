@@ -20,13 +20,15 @@ export class MockListRepository implements IListRepository {
       boardId: list.boardId,
       createdAt: Date.now(),
       orderIndex: list.orderIndex,
+      isArchived: list.isArchived ?? false,
+      archivedAt: list.archivedAt ?? undefined,
     }
 
     this.lists.push(newlist)
     return newlist
   }
 
-  async updateList(id: string, data: Partial<Pick<List, 'title' | 'orderIndex'>>): Promise<void> {
+  async updateList(id: string, data: Partial<Pick<List, 'title' | 'orderIndex' | 'isArchived' | 'archivedAt'>>): Promise<void> {
     const index = this.lists.findIndex((l) => l.id === id)
 
     if (index !== -1) {

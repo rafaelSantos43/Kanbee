@@ -1,6 +1,11 @@
 import { IListRepository } from '@/core/interfaces/ListRepository'
 import { MockListRepository } from '@/infrastructure/repositories/testing/MockListRepository'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
+
+jest.mock('@/infrastructure/repositories/DrizzleListRepository', () => ({
+  DrizzleListRepository: jest.fn(),
+}))
+
 import { createListStore } from '../useListStore'
 
 describe('useListStore', () => {

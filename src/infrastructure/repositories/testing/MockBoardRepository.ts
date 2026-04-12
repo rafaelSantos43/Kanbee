@@ -20,14 +20,19 @@ export class MockBoardRepository implements IBoardRepository {
       ...board,
       id: `mock-id-${++this.idCounter}`,
       createdAt: Date.now(),
+      description: board.description ?? undefined,
+      coverImage: board.coverImage ?? undefined,
       isFavorite: board.isFavorite ?? false,
+      isArchived: board.isArchived ?? false,
+      isPublic: board.isPublic ?? false,
+      archivedAt: board.archivedAt ?? undefined,
     }
 
     this.boards.push(newBoard)
     return newBoard
   }
 
-  async updateBoard(id: string, data: Partial<Board>): Promise<void> {
+  async updateBoard(id: string, data: Partial<Omit<Board, 'id' | 'createdAt'>>): Promise<void> {
     const index = this.boards.findIndex((b) => b.id === id)
 
     if (index !== -1) {

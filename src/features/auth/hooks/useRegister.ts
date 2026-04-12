@@ -12,15 +12,24 @@ export const useRegister = () => {
   const submit = async ({ userData, password }: { userData: User; password: string }) => {
     const { username, email, role, avatar } = userData
     if (!username.trim() || !password.trim() || !email.trim() || !role.trim()) {
-      Alert.alert('Atención', 'El usuario y la contraseña son obligatorios.')
+      Alert.alert('Atencion', 'El usuario y la contrasena son obligatorios.')
       return
     }
+
     setLoadingRegister(true)
     const hashedPassword = hashPassword(password)
+
     try {
-      const responseData = await repository.register({ username, email, password: hashedPassword, role, avatar })
+      const responseData = await repository.register({
+        username,
+        email,
+        password: hashedPassword,
+        role,
+        avatar: avatar ?? null,
+      })
+
       if (responseData.id) {
-        Alert.alert('¡Éxito!', 'Registro completado correctamente', [
+        Alert.alert('Exito', 'Registro completado correctamente', [
           { text: 'OK', onPress: () => router.replace('/(auth)') },
         ])
       }

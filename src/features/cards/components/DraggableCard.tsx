@@ -1,5 +1,5 @@
 import { KText } from "@/components/KText";
-import { routeNames } from "@/constants/routeNames";
+import { UserImage } from "@/components/UserImage";
 import { Card } from "@/core/entities";
 import { router } from "expo-router";
 import { useRef } from "react";
@@ -26,8 +26,10 @@ type DraggableCardProps = {
 };
 
 const goToCardDetails = (cardId: string) => {
-  // Aquí iría la lógica para navegar a los detalles de la tarea
-  router.push(`${routeNames.cardDetails.root}`);
+  router.push({
+    pathname: "/(main)/(cardDetails)",
+    params: { id: cardId },
+  });
 };
 
 export const DraggableCard = ({
@@ -71,11 +73,18 @@ export const DraggableCard = ({
         <Pressable
           onPress={() => goToCardDetails(card.id)}
           ref={viewRef}
-          className="border gap-3 my-3 rounded-xl p-3"
+          className=" gap-3 my-3 rounded-xl p-4 bg-white"
         >
-          <KText label={card.title} />
-          {card.description ? <KText label={card.description} /> : null}
-          <KText label={card.status} />
+          <KText variant="label" label={card.title} />
+          {card.description ? (
+            <View className="px-1">
+              <KText variant="body" label={card.description} />
+            </View>
+          ) : null}
+          <View className="flex-row justify-between">
+            <KText label={card.status} />
+            <UserImage userDefault="John Doe" />
+          </View>
         </Pressable>
       </Animated.View>
     </GestureDetector>

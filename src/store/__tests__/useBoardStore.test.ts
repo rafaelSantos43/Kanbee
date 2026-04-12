@@ -1,6 +1,11 @@
 import type { IBoardRepository } from '@/core/interfaces/IBoardRepository'
 import { MockBoardRepository } from '@/infrastructure/repositories/testing/MockBoardRepository'
 import { act, renderHook, waitFor } from '@testing-library/react-native'
+
+jest.mock('@/infrastructure/repositories/SQLiteBoardRepository', () => ({
+  SQLiteBoardRepository: jest.fn(),
+}))
+
 import { createBoardStore } from '../useBoardStore'
 
 describe('useBoardStore', () => {

@@ -4,6 +4,6 @@ export interface IBoardRepository {
   getBoards(userId: string): Promise<Board[]>
   getBoardById(id: string): Promise<Board | null>
   createBoard(board: Omit<Board, 'id' | 'createdAt'>): Promise<Board>
-  updateBoard(id: string, data: Partial<Board>): Promise<void>
+  updateBoard(id: string, data: Partial<Omit<Board, 'id' | 'createdAt'>>): Promise<void>
   deleteBoard(id: string): Promise<void>
 }

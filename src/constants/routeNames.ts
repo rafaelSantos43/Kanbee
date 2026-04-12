@@ -15,13 +15,14 @@ export const routeNames = {
 
   // Main routes
   main: {
-    root: "/(main)",
+    root: "/(main)/(board)/",
   },
 
   // Board routes
   board: {
     list: "/(main)/(board)/",
     detail: (id: string) => `/(main)/(board)/${id}`,
+    settings: () => `/(main)/(board)/settingsBoard`,
   },
 
   // Card Details routes

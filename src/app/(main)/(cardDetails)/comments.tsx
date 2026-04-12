@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 export default function CommentsScreen() {
   return (
-    <Screen enableBack={false}>
+    <Screen enableBack={false} title="Comments">
       <View className="flex-1 items-center justify-center">
         <KText label="Comments" />
       </View>

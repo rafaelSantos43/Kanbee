@@ -4,8 +4,10 @@ export interface User {
   id: string
   username: string
   email: string
-  avatar: string | null
+  password?: string
+  avatar?: string | null
   role: Role
   createdAt: number
   updatedAt?: number
+  deletedAt?: number
 }

@@ -1,27 +1,22 @@
-import { useEffect, useState } from 'react'
-import { Alert, Pressable, View } from 'react-native'
+import { useState } from "react";
+import { Pressable, View } from "react-native";
 
-import { KText } from '@/components/KText'
-import { Screen } from '@/components/Screen'
-import { CreateBoardModal } from '@/features/boards/components/CreateBoardModal'
-import { SearchBoard } from '@/features/boards/components/SearchBoard'
-import { useBoardStore } from '@/store/useBoardStore'
+import { Screen } from "@/components/Screen";
+import { CreateBoardModal } from "@/features/boards/components/CreateBoardModal";
+import { SearchBoard } from "@/features/boards/components/SearchBoard";
 
-import { BoardList } from '@/features/boards/components/BoardList'
-import { BoardsHeaderLeft } from '@/features/boards/components/BoardsHeaderLeft'
-import { BoardsHeaderRight } from '@/features/boards/components/BoardsHeaderRight'
-import { useSessionStore } from '@/store/useSessionStore'
+import { BoardList } from "@/features/boards/components/BoardList";
+import { BoardsHeaderLeft } from "@/features/boards/components/BoardsHeaderLeft";
+import { BoardsHeaderRight } from "@/features/boards/components/BoardsHeaderRight";
+import { useCreateBoard } from "@/features/boards/hooks/useBoard";
+import { useSessionStore } from "@/store/useSessionStore";
+import { Plus } from "lucide-react-native";
 
 export default function BoardsScreen() {
-  const [isCreateOpen, setIsCreateOpen] = useState(false)
-  const user = useSessionStore((state) => state.user)
-  const { isLoading, fetchBoards, addBoard } = useBoardStore()
-
-  useEffect(() => {
-    if (user?.id) {
-      fetchBoards(user.id)
-    }
-  }, [fetchBoards, user?.id])
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const user = useSessionStore((state) => state.user);
+  const [searchText, setSearchText] = useState("");
+  const { mutate: addBoard } = useCreateBoard();
 
   return (
     <Screen
@@ -29,33 +24,37 @@ export default function BoardsScreen() {
       leftIcon={<BoardsHeaderLeft />}
       rightIcon={<BoardsHeaderRight />}
     >
-      <View className='flex-1'>
-        <SearchBoard />
+      <View className="flex-1">
+        <SearchBoard searchText={searchText} onSearch={setSearchText} />
 
-        <BoardList isLoading={isLoading} />
+        <BoardList searchText={searchText} />
 
         <Pressable
           onPress={() => setIsCreateOpen(true)}
-          className='absolute bottom-10 self-end bg-kanbee-yellow w-16 h-16 rounded-full items-center justify-center'
+          className="absolute bottom-10 self-end bg-kanbee-yellow w-16 h-16 rounded-full items-center justify-center"
         >
-          <KText
-            label='+'
-            className='text-white text-3xl font-light'
-          />
+          <Plus />
         </Pressable>
 
         <CreateBoardModal
           visible={isCreateOpen}
-          onSubmit={({ title, color }) => {
-            if (!user?.id) {
-              Alert.alert('Error', 'No se encontró una sesión activa.')
-              return
-            }
-            addBoard({ userId: user?.id, title, color, isFavorite: false })
+          onSubmit={({ title, description, color, coverImage, isPublic }) => {
+            addBoard(
+              {
+                userId: user?.id ?? "",
+                title,
+                description,
+                color,
+                coverImage,
+                isFavorite: false,
+                isPublic,
+              },
+              { onSuccess: () => setIsCreateOpen(false) },
+            );
           }}
           onClose={() => setIsCreateOpen(false)}
         />
       </View>
     </Screen>
-  )
+  );
 }
