@@ -1,16 +1,17 @@
 import { KText } from "@/components/KText";
 import { Screen } from "@/components/Screen";
 import { routeNames } from "@/constants/routeNames";
-import { Card } from "@/core/entities/card";
+import { useBoardById } from "@/features/boards/hooks/useBoard";
+import { useCreateCard } from "@/features/cards/hooks/useCard";
 import { CreateListModal } from "@/features/lists/components/CreateListModal";
 import { ListColumn } from "@/features/lists/components/ListColumn";
 import { useDragAndDropBoard } from "@/features/lists/hooks/useDragAndDropBoard";
-import { useBoardStore } from "@/store/useBoardStore";
+import { useCreateList, useListsByBoard } from "@/features/lists/hooks/useList";
 import { useCardStore } from "@/store/useCardStore";
 import { useListStore } from "@/store/useListStore";
 import { router, useLocalSearchParams } from "expo-router";
 import { Settings } from "lucide-react-native";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -54,43 +55,31 @@ export default function BoardDetailScreen() {
   } = useDragAndDropBoard();
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const { boards, isLoading, fetchBoards } = useBoardStore();
-  const { lists, fetchLists, addList, removeList, updateList } = useListStore();
-  const { cards, fetchCards, addCard, updateCard, moveCard } = useCardStore();
+  const { board, isLoading } = useBoardById(id ?? "");
 
-  useEffect(() => {
-    if (!boards.length && id) fetchBoards(id);
-  }, [boards.length, id, fetchBoards]);
+  const { lists, isLoading: isListsLoading } = useListsByBoard(id ?? "");
+  const { mutate: addList } = useCreateList();
+  const { removeList, updateList } = useListStore();
+  const { mutate: addCard } = useCreateCard();
+  const { fetchCards, updateCard, moveCard } = useCardStore();
 
-  useEffect(() => {
-    if (id) fetchLists(id);
-  }, [id, fetchLists]);
+  // const cardsByList = useMemo(() => {
+  //   const map: Record<string, Card[]> = {};
 
-  useEffect(() => {
-    if (lists.length > 0) {
-      lists.forEach((list) => fetchCards(list.id));
-    }
-  }, [lists.length]);
+  //   for (const card of cards) {
+  //     if (!map[card.listId]) {
+  //       map[card.listId] = [];
+  //     }
+  //     map[card.listId].push(card);
+  //   }
 
-  const board = useMemo(() => boards.find((b) => b.id === id), [boards, id]);
+  //   // ordenar una sola vez
+  //   for (const listId in map) {
+  //     map[listId].sort((a, b) => a.orderIndex - b.orderIndex);
+  //   }
 
-  const cardsByList = useMemo(() => {
-    const map: Record<string, Card[]> = {};
-
-    for (const card of cards) {
-      if (!map[card.listId]) {
-        map[card.listId] = [];
-      }
-      map[card.listId].push(card);
-    }
-
-    // ordenar una sola vez
-    for (const listId in map) {
-      map[listId].sort((a, b) => a.orderIndex - b.orderIndex);
-    }
-
-    return map;
-  }, [cards]);
+  //   return map;
+  // }, [cards]);
 
   const ghostAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -137,8 +126,7 @@ export default function BoardDetailScreen() {
           scrollEventThrottle={16}
           className="flex-1 bg-slate-100 rounded-xl"
         >
-          {lists.map((item, index) => {
-            const listCards = cardsByList[item.id] || [];
+          {lists?.map((item, index) => {
             return (
               <View
                 key={item.id}
@@ -146,37 +134,25 @@ export default function BoardDetailScreen() {
               >
                 <ListColumn
                   list={item}
-                  cards={listCards}
                   columnIndex={index}
                   isDropTarget={hoverListId === item.id}
                   insertIndex={hoverListId === item.id ? hoverInsertIndex : -1}
                   draggedCardId={ghostCard?.id ?? null}
                   onEdit={(listId, data) => updateList(listId, data)}
                   onDelete={(listId) => removeList(listId)}
-                  onAddCard={({
-                    title,
-                    description,
-                    status,
-                    priority,
-                    responsibleId,
-                    coverColor,
-                    coverImage,
-                    dueDate,
-                    startDate,
-                  }) => {
-                    addCard({
-                      title,
-                      description,
-                      listId: item.id,
-                      status,
-                      priority,
-                      responsibleId,
-                      coverColor,
-                      coverImage,
-                      dueDate,
-                      startDate,
-                      orderIndex: listCards.length,
-                    });
+                  onAddCard={(data, cardCount) => {
+                    addCard(
+                      {
+                        card: {
+                          ...data,
+                          listId: item.id,
+                          orderIndex: cardCount ?? 0,
+                        },
+                      },
+                      {
+                        onSuccess: () => setIsCreateOpen(false),
+                      },
+                    );
                   }}
                   onDragStart={handleDragStart}
                   onDragEnd={handleDragEnd}
@@ -216,11 +192,12 @@ export default function BoardDetailScreen() {
         </Pressable>
         <CreateListModal
           visible={isCreateOpen}
+          isLoading={false}
           onSubmit={({ title, isArchived }) => {
             addList({
               title,
               boardId: id ? id : "",
-              orderIndex: lists.length,
+              orderIndex: lists?.length ? lists.length : 0,
               isArchived,
             });
           }}

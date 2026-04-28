@@ -1,5 +1,5 @@
 import React, { forwardRef, ReactNode } from "react";
-import { Text, TextInput, TextInputProps, View } from "react-native";
+import { Pressable, Text, TextInput, TextInputProps, View } from "react-native";
 
 interface kTextInputProps extends TextInputProps {
   label?: string;
@@ -23,26 +23,30 @@ export const KTextInput = forwardRef<TextInput, kTextInputProps>(
     },
     ref,
   ) => {
+    const innerRef = React.useRef<TextInput>(null);
+    const inputRef = (ref as React.RefObject<TextInput>) ?? innerRef;
     return (
       <View>
         {label && (
           <Text className="text-sm font-medium text-gray-700">{label}</Text>
         )}
 
-        <View
-          className={`flex-row items-center my-2 border-2 mb-3 rounded-xl border-neutral-400 dark:border-neutralDark-600 ${containerClassName}`}
-        >
-          {leftIcon && <View className="mx-2">{leftIcon}</View>}
+        <Pressable onPress={() => inputRef.current?.focus()}>
+          <View
+            className={`flex-row items-center my-2 border-2 mb-3 rounded-xl border-neutral-400 dark:border-neutralDark-600 ${containerClassName}`}
+          >
+            {leftIcon && <View className="mx-2">{leftIcon}</View>}
 
-          <TextInput
-            ref={ref}
-            className={`flex-1  py-4 text-base text-neutral-800 dark:text-neutral-200  ${inputClassName}`}
-            placeholderTextColor="#94a3b8"
-            {...props}
-          />
+            <TextInput
+              ref={inputRef}
+              className={`flex-1  px-3 py-4 text-base text-neutral-800 dark:text-neutral-200  ${inputClassName}`}
+              placeholderTextColor="#94a3b8"
+              {...props}
+            />
 
-          {rightIcon && <View className="ml-2">{rightIcon}</View>}
-        </View>
+            {rightIcon && <View className="ml-2">{rightIcon}</View>}
+          </View>
+        </Pressable>
 
         {error && <Text className="mt-1 text-sm text-red-500">{error}</Text>}
       </View>

@@ -6,11 +6,13 @@ import {
   Modal,
   Platform,
   Pressable,
+  Switch,
   View,
 } from "react-native";
 
 type Props = {
   visible: boolean;
+  isLoading?: boolean;
   onSubmit: ({
     title,
     isArchived,
@@ -22,18 +24,27 @@ type Props = {
 };
 const isIOS = Platform.OS === "ios";
 
-export const CreateListModal = ({ visible, onSubmit, onClose }: Props) => {
+export const CreateListModal = ({
+  visible,
+  onSubmit,
+  isLoading,
+  onClose,
+}: Props) => {
   const [title, setTitle] = useState("");
-  const [isArchived, setIsArchived] = useState("false");
+  const [isArchived, setIsArchived] = useState(false);
 
   const handleSubmit = () => {
     if (!title.trim()) return;
     onSubmit({
       title: title.trim(),
-      isArchived: isArchived.trim().toLowerCase() === "true",
+      isArchived: isArchived,
     });
+    handleClose();
+  };
+
+  const handleClose = () => {
     setTitle("");
-    setIsArchived("false");
+    setIsArchived(false);
     onClose();
   };
   return (
@@ -41,7 +52,7 @@ export const CreateListModal = ({ visible, onSubmit, onClose }: Props) => {
       animationType="slide"
       transparent
       visible={visible}
-      onRequestClose={onClose}
+      onRequestClose={handleClose}
     >
       <KeyboardAvoidingView
         behavior={isIOS ? "padding" : undefined}
@@ -49,7 +60,7 @@ export const CreateListModal = ({ visible, onSubmit, onClose }: Props) => {
         keyboardVerticalOffset={isIOS ? 80 : 0}
       >
         <View className="flex-1 bg-black/60">
-          <Pressable className="flex-1" onPress={onClose} />
+          <Pressable className="flex-1" onPress={handleClose} />
 
           <View
             className={
@@ -73,24 +84,21 @@ export const CreateListModal = ({ visible, onSubmit, onClose }: Props) => {
               className="px-3"
             />
 
-            <KTextInput
-              label="IS_ARCHIVED"
-              value={isArchived}
-              onChangeText={setIsArchived}
-              placeholder="IS_ARCHIVED"
-              placeholderTextColor="#9ca3af"
-              className="px-3"
-            />
+            <View className="flex-row items-center justify-between px-3 py-2 ">
+              <KText variant="label" label="Make list archived?" />
+              <Switch value={isArchived} onValueChange={setIsArchived} />
+            </View>
 
             <View className="flex-row justify-end gap-3">
               <Pressable
-                onPress={onClose}
+                onPress={handleClose}
                 className="h-10 px-4 rounded-full border border-neutral-700 items-center justify-center"
               >
                 <KText label="CANCEL" />
               </Pressable>
 
               <Pressable
+                disabled={isLoading}
                 onPress={handleSubmit}
                 className="h-10 px-5 rounded-full bg-kanbee-yellow items-center justify-center"
               >

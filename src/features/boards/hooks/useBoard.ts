@@ -19,11 +19,13 @@ export function useBoards() {
 }
 
 export function useBoardById(id: string) {
-  return useQuery({
+  const { data, isLoading, refetch, error } = useQuery({
     queryKey: ["boards", id],
     queryFn: () => boardRepo.getBoardById(id),
     enabled: !!id,
   });
+
+  return { board: data, isLoading, error, refetch };
 }
 
 export function useCreateBoard() {

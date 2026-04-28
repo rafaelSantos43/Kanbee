@@ -2,12 +2,13 @@ import { KText } from "@/components/KText";
 import { Card, List } from "@/core/entities";
 import { CreateCardModal } from "@/features/cards/components/CreateCardModal";
 import { DraggableCard } from "@/features/cards/components/DraggableCard";
+import { useCardByList } from "@/features/cards/hooks/useCard";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
 type ListColumnProps = {
   list: List;
-  cards: Card[];
+  //cards: Card[];
   columnIndex: number;
   isDropTarget: boolean;
   insertIndex: number;
@@ -17,17 +18,20 @@ type ListColumnProps = {
     data: Partial<Pick<List, "title" | "orderIndex">>,
   ) => void;
   onDelete: (id: string) => void;
-  onAddCard: (data: {
-    title: string;
-    description?: string;
-    status: Card["status"];
-    priority?: Card["priority"];
-    responsibleId?: Card["responsibleId"];
-    coverColor?: Card["coverColor"];
-    coverImage?: Card["coverImage"];
-    dueDate?: Card["dueDate"];
-    startDate?: Card["startDate"];
-  }) => void;
+  onAddCard: (
+    data: {
+      title: string;
+      description?: string;
+      status: Card["status"];
+      priority?: Card["priority"];
+      responsibleId?: Card["responsibleId"];
+      coverColor?: Card["coverColor"];
+      coverImage?: Card["coverImage"];
+      dueDate?: Card["dueDate"];
+      startDate?: Card["startDate"];
+    },
+    cardCount?: number,
+  ) => void;
   onDragStart: (
     card: Card,
     absoluteX: number,
@@ -42,7 +46,7 @@ type ListColumnProps = {
 
 export const ListColumn = ({
   list,
-  cards,
+  //cards,
   columnIndex,
   isDropTarget,
   insertIndex,
@@ -56,25 +60,25 @@ export const ListColumn = ({
   onDrop,
 }: ListColumnProps) => {
   const [visible, setVisible] = useState(false);
-
+  const { cards } = useCardByList(list.id);
   const showPlaceholder = isDropTarget && insertIndex >= 0;
-
+  const cardCount = cards?.length ?? 0;
   return (
     <View className="flex-1 px-4">
       <View className="py-3 flex-row justify-between items-center">
-        <KText variant="h2" label={`${list.title} (${cards.length})`} />
+        <KText variant="h2" label={`${list.title} (${cards?.length})`} />
         <KText variant="h2" label="..." />
       </View>
 
       <View className="flex-1">
-        {cards.length === 0 && !showPlaceholder && (
+        {cards?.length === 0 && !showPlaceholder && (
           <View className="flex-1 items-center justify-center py-10">
             <KText label="No cards yet" className="text-neutralDark-300" />
           </View>
         )}
 
         {/* Todas las cards se quedan en el DOM — la arrastrada baja a opacity 0.3 vía DraggableCard */}
-        {cards.map((item) => (
+        {cards?.map((item) => (
           <DraggableCard
             key={item.id}
             card={item}
@@ -106,7 +110,7 @@ export const ListColumn = ({
       <CreateCardModal
         visible={visible}
         onSubmit={(data) => {
-          onAddCard(data);
+          onAddCard(data, cardCount);
         }}
         onClose={() => setVisible(false)}
       />
